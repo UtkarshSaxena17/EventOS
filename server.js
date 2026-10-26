@@ -63,7 +63,7 @@ async function setupDB() {
         await db.query("INSERT IGNORE INTO users (email, password, role) VALUES ('admin@eventos.local', 'admin123', 'admin')");
     } catch(e) {}
 }
-setupDB();
+setupDB().catch(err => console.warn('Database initialization warning (check MySQL connection & .env):', err.message));
 
 const logActivity = async (admin_email, action, details) => {
     try { await db.query('INSERT INTO activity_logs (admin_email, action, details) VALUES (?, ?, ?)', [admin_email, action, JSON.stringify(details)]); } catch(e) { console.error(e); }
